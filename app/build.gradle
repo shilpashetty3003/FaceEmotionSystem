@@ -17,14 +17,28 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
+
             useSupportLibrary true
         }
     }
 
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'Pcpl@123456789'
+            storeFile file('EmotionSystem.jks')
+            storePassword 'Pcpl@123456789'
+            v1SigningEnabled false
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -104,8 +118,5 @@ dependencies {
 
     //
     implementation 'org.tensorflow:tensorflow-lite:2.3.0'
-
-
-
 
 }

@@ -1,18 +1,22 @@
 package com.example.fermusicsystem.screen
 
 import android.graphics.Bitmap
+import android.media.Image
 import android.os.Bundle
+import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.fermusicsystem.common.FERModel
 import com.example.fermusicsystem.databinding.ActivityHomeScreenBinding
 import com.otaliastudios.cameraview.controls.Audio
 import com.otaliastudios.cameraview.controls.Facing
+import com.otaliastudios.cameraview.frame.FrameProcessor
 import com.otaliastudios.cameraview.size.SizeSelectors
 import husaynhakeem.io.facedetector.FaceBounds
 import husaynhakeem.io.facedetector.FaceDetector
 import husaynhakeem.io.facedetector.Frame
 import husaynhakeem.io.facedetector.LensFacing
+
 
 class HomeScreen : AppCompatActivity() {
 
@@ -55,30 +59,63 @@ class HomeScreen : AppCompatActivity() {
         binding.viewfinder.audio = Audio.OFF
         binding.viewfinder.setPreviewStreamSize(SizeSelectors.maxWidth(480))
 
-        binding.viewfinder.addFrameProcessor {
-            faceDetector.process(
-                Frame(
-                    it.getData(),
-                    rotation = it.rotation,
-                    size = android.util.Size(it.size.width, it.size.height),
-                    format = it.format,
-                    lensFacing = LensFacing.FRONT
+//        binding.viewfinder.addFrameProcessor {
+//            faceDetector.process(
+//                Frame(
+//                    it.getData(),
+//                    rotation = it.rotation,
+//                    size = android.util.Size(it.size.width, it.size.height),
+//                    format = it.format,
+//                    lensFacing = LensFacing.FRONT
+//                )
+//            )
+//
+//        }
+
+
+
+        binding.viewfinder.addFrameProcessor(object : FrameProcessor {
+
+            override fun process(frame: com.otaliastudios.cameraview.frame.Frame) {
+                faceDetector.process(
+                    Frame(
+
+                        frame.getData(),
+                        frame.rotation,
+                        size = android.util.Size(frame.size.width, frame.size.height),
+                        format = frame.format,
+                        lensFacing = LensFacing.FRONT
+                    )
                 )
-            )
-        }
+            }
+        })
+
 
     }
 
+
+    //faceDetector.process(
+    //                Frame(
+    //                    it.getData(),
+    //                    rotation = it.rotation,
+    //                    size = android.util.Size(it.size.width, it.size.height),
+    //                    format = it.format,
+    //                    lensFacing = LensFacing.FRONT
+    //                )
+    //            )
+
+    //
     fun setupObserver() {
-        viewModel.emotionLables().observe(this){
+        viewModel.emotionLables().observe(this) {
             it?.let { binding.faceBoundsOverlay.updateEmotionLabels(it) }
         }
     }
 
     fun FaceDetector.setup() = run {
+
         setOnFaceDetectionListener(object : FaceDetector.OnFaceDetectionResultListener {
             override fun onSuccess(faceBounds: List<FaceBounds>, faceBitmaps: List<Bitmap>) {
-                        viewModel.onFaceDetected(faceBounds,faceBitmaps)
+                viewModel.onFaceDetected(faceBounds, faceBitmaps)
             }
 
             override fun onFailure(exception: Exception) {

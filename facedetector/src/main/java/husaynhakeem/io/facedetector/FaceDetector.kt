@@ -115,6 +115,7 @@ class FaceDetector(private val faceBoundsOverlay: FaceBoundsOverlay) {
                     }
 
                     // Extract a bounding box (rect) for each detected face
+
                     val faceRects = faces.map { it.toFaceRect(this) }
                     // Cut each face image from a frame
                     val faceBitmaps = faceRects.toFaceBitmapList(this)
@@ -122,6 +123,7 @@ class FaceDetector(private val faceBoundsOverlay: FaceBoundsOverlay) {
                     val faceRectsWithIds = faces
                                 .map { it.trackingId }
                                 .zip(faceRects.map { RectF(it) })
+
                     // Transform the coordinates of the face rects so they are correctly rendered
                     // on the screen
                     val faceBounds = faceRectsWithIds.toFaceBoundsList(this, faceBoundsOverlay)
@@ -129,7 +131,6 @@ class FaceDetector(private val faceBoundsOverlay: FaceBoundsOverlay) {
                     // Update listeners
                     onFaceDetectionResultListener?.onSuccess(faceBounds, faceBitmaps)
                     updateRotationListenerOnRotationChange()
-
                     mainExecutor.execute { faceBoundsOverlay.updateFaces(faceBounds) }
                 }
                 .addOnFailureListener { exception ->
