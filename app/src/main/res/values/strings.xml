@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FERMusicSystem</string>
+    <string name="app_name">MoodTuner</string>
     <!-- Please refer to https://www.projectoxford.ai/ to get your subscription key -->
     <!-- If you have one subscription key, you can add it here to use the service -->
     <string name="subscription_key">a15f8a105b844db5ac23980b52efd1fd</string>
@@ -23,7 +23,6 @@
     <string name="take_photo">Take a Photo</string>
     <string name="select_image_in_album">From Gallery</string>
     <string name="toggle_camera">Toggle camera</string>
-
 
 
 </resources>

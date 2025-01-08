@@ -50,9 +50,9 @@ object FERModel {
     }
 
     fun classify(inputImage: Bitmap) :String{
+
         val input = Bitmap.createScaledBitmap(inputImage, INPUT_IMAGE_WIDTH, INPUT_IMAGE_HEIGHT,true).toGrayscale().toGrayscaleByteBuffer()
         return predict(input).toPrediction().toLabel()
-
     }
     fun predict(input:ByteBuffer) :FloatArray{
         val outputByteBuffer = ByteBuffer.allocateDirect(4 * N_CLASSES).order(ByteOrder.nativeOrder())

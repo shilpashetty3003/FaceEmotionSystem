@@ -3,6 +3,7 @@ package husaynhakeem.io.facedetector
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 
@@ -27,7 +28,7 @@ class FaceBoundsOverlay @JvmOverloads constructor(ctx: Context, attrs: Attribute
         anchorPaint.color = ContextCompat.getColor(context, android.R.color.holo_blue_dark)
 
         idPaint.color = ContextCompat.getColor(context, android.R.color.holo_blue_dark)
-        idPaint.textSize = 40f
+        idPaint.textSize = 70f
 
         boundsPaint.style = Paint.Style.STROKE
         boundsPaint.color = ContextCompat.getColor(context, android.R.color.holo_blue_dark)
@@ -41,6 +42,7 @@ class FaceBoundsOverlay @JvmOverloads constructor(ctx: Context, attrs: Attribute
     }
 
     fun updateEmotionLabels(emotions: Map<Int, String>) {
+        Log.d("TAG", "updateEmotionLabels: $emotionLabels")
         emotionLabels.clear()
         emotionLabels.putAll(emotions)
     }

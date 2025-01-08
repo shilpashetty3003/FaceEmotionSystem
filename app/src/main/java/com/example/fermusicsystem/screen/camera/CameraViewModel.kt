@@ -1,4 +1,4 @@
-package com.example.fermusicsystem.screen
+package com.example.fermusicsystem.screen.camera
 
 import android.graphics.Bitmap
 import android.os.Looper
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.fermusicsystem.common.FERModel
 import husaynhakeem.io.facedetector.FaceBounds
 
-class HomeViewModel : ViewModel() {
+class CameraViewModel : ViewModel() {
 
 
     private val emotionLabels = MutableLiveData<Map<Int, String>>()
@@ -20,6 +20,7 @@ class HomeViewModel : ViewModel() {
         if (faceBitmaps.isEmpty()) return
 
         synchronized(this) {
+
             if (!processing) {
                 processing = true
                 android.os.Handler(Looper.getMainLooper()).post {
